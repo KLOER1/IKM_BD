@@ -1,0 +1,37 @@
+﻿@{
+    ViewData["Title"] = "Плейлист всех песен";
+    List<Author> authors = ViewBag.Authors;
+}
+
+<h1>Список всех авторов</h1>
+
+<table>
+    <tr>
+        <th>Имя (псеводним)</th>
+        <th>Слушателей в месяц</th>
+        <th>Статус автора</th>
+        <th>Действие над строкой</th>
+    </tr>
+    
+    @foreach (var item in authors.OrderBy(a => a.Id))
+    {
+        <tr>
+            <td>
+                @item.Name<br>
+                [ <a asp-controller="Home" asp-action="DeleteAuthor" asp-route-Id="@item.Id">Удалить</a> ]
+            </td>
+            <td>
+                @item.Listeners
+            </td>
+            <td>
+                @item.Description
+            </td>
+            <td>
+                [ <a asp-controller="Home" asp-action="UpdateAuthor" asp-route-Id="@item.Id">Изменить</a> ]
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="4"><a asp-controller="Home" asp-action="CreateAuthor">Добавить</a></td>
+    </tr>
+</table>

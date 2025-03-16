@@ -1,0 +1,25 @@
+﻿@{
+    ViewData["Title"] = "Создание новой записи Автора";
+    CreateAuthor model = ViewBag.Model;
+}
+
+<h1>Создание нового автора</h1>
+
+<div>
+    <form asp-action="CreateAuthor" asp-controller="Home" method="post">
+        <div asp-validation-summary="All">
+            <div>
+                <lable>Имя (псевдоним) автора</lable>
+                <input type="text" asp-for="@(model.Name)" />
+            </div>
+
+            <div>
+                <lable>Описание автора</lable>
+                <input type="text" asp-for="@(model.Description)" />
+            </div>
+            <div>
+                <button type="submit">Отправить</button>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,34 @@
+﻿@{
+    ViewData["Title"] = "Плейлист всех песен";
+    List<Album> albums = ViewBag.Albums;
+    Console.WriteLine(DateOnly.Parse("2.03.2025"));
+}
+
+<h1>Список всех альбомов</h1>
+
+<table>
+    <tr>
+        <th>Название альбома</th>
+        <th>Дата резиза</th>
+        <th>Действие над строкой</th>
+    </tr>
+
+    @foreach (var item in albums.OrderBy(a => a.Id))
+    {
+            <tr>
+                <td>
+                    @item.Title <br>
+                    [ <a asp-controller="Home" asp-action="DeleteAlbum" asp-route-Id="@item.Id">Удалить</a> ]
+                </td>
+                <td>
+                    @item.ReleaseDate
+                </td>
+                <td>
+                    [ <a asp-controller="Home" asp-action="UpdateAlbum" asp-route-Id="@item.Id">Изменить</a> ]
+                </td>
+            </tr>
+    }
+    <tr>
+        <td colspan="4"><a asp-controller="Home" asp-action="CreateAlbum">Добавить</a></td>
+    </tr>
+</table>

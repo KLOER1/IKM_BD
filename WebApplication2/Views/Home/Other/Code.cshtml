@@ -1,0 +1,20 @@
+﻿@{
+    ViewData["Title"] = "Code";
+}
+<h1>Code</h1>
+
+@using (Html.BeginForm())
+{
+    <input type="text" id="initial-text-field" />
+    <script>
+        document.getElementById("initial-text-field").addEventListener("keydown", function(event) {
+        if (event.keyCode === 13)
+        { // Если нажата клавиша Enter
+            // Добавляем новое текстовое поле
+            const newTextField = document.createElement("input");
+            newTextField.type = "text";
+            document.body.appendChild(newTextField);
+        }
+    </script>
+}
+

@@ -1,0 +1,51 @@
+﻿@{
+    ViewData["Title"] = "Создание новой записи Плейлиста";
+    UpdatePlaylist model = ViewBag.Model;
+    List<Author> authors = ViewBag.Authors;
+    List<Playlist> playlist = ViewBag.Playlist;
+}
+
+<h1>Изменение записей в плейлисте</h1>
+
+<div>
+    <form asp-action="UpdatePlaylistAuthor" asp-controller="Home" method="post">
+        <div asp-validation-summary="All">
+            <table>
+                <tr>
+                    <th>Идентификатор песни</th>
+                    <th>Идентификатор автора</th>
+                    <th>Новый индентификатор автора</th>
+                </tr>
+                <tr>
+                    <td>
+                        <select asp-for="@(model.IdSong)">
+                            <option>@(model.IdSong)</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select asp-for="@(model.IdAuthor)">
+                            <option>@(model.IdAuthor)</option>
+                        </select>
+                    </td>
+                    <td>
+                        @foreach (var item in playlist.Where(p => p.IdSong == model.IdSong).OrderBy(p => p.IdAuthor))
+                        {
+                            <div>
+                                <select asp-for="@(model.NewId)">
+                                    <option>@(item.IdSong)</option>
+                                    @foreach (var num in authors.Where(s => s.Id != item.IdSong).Select(s => s.Id))
+                                        {
+                                            <option>@num</option>
+                                        }
+                                </select>
+                            </div>
+                        }
+                    </td>
+                </tr>
+            </table>
+            <div>
+                <button type="submit">Отправить</button>
+            </div>
+        </div>
+    </form>
+</div>

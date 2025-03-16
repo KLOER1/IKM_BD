@@ -1,0 +1,53 @@
+﻿@{
+    ViewData["Title"] = "Создание новой записи Плейлиста";
+    UpdateSong model = ViewBag.Model;
+    Song song = ViewBag.Song;
+    List<Album> albums = ViewBag.Albums;
+}
+
+<h1>Изменение информации об песне</h1>
+
+<div>
+    <form asp-action="UpdateSong" asp-controller="Home"  method="post">
+        <div asp-validation-summary="All">
+            <div>
+                <lable>Индентификатор Песни</lable>
+                <select asp-for="@(model.IdSong)">
+                    <option>@(song.Id)</option>
+                </select>
+            </div>
+            <div>
+                <lable>Индентификатор Альбома</lable>
+                <select asp-for="@(model.IdAlbum)">
+                    <option>@(song.AlbumId)</option>
+                    @foreach (int num in albums.Where(s => s.Id != song.AlbumId).Select(s => s.Id))
+                    {
+                        <option>@num</option>
+                    }
+                </select>
+            </div>
+            <div>
+                <lable>Название песни</lable>
+                <input type="text" placeholder="@(song.Title)" asp-for="@(model.Title)" />
+            </div>
+            <div>
+                <lable>Количество прослушиваний</lable>
+                <input type="text" placeholder="@(song.Auditions)" asp-for="@(model.Auditions)" />
+            </div>
+            <div>
+                <lable>Продолжительность песни</lable>
+                <input type="text" asp-for="@(model.Duration)" />
+            </div>
+            <div>
+                <lable>Песня содержит нецензурную лексику или другие материалы для взрослых?</lable>
+                <select asp-for="@(model.Explicit)">
+                    <option>Нет</option>
+                    <option>Да</option>
+                </select>
+            </div>
+            <div>
+                <button type="submit">Отправить</button>
+            </div>
+        </div>
+    </form>
+</div>

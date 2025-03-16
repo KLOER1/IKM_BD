@@ -1,0 +1,63 @@
+﻿@{
+    ViewData["Title"] = "Плейлист всех песен";
+    List<Author> authors = ViewBag.Authors;
+    List<Playlist> authorsSongs = ViewBag.AuthorsSongs;
+    List<Song> songs = ViewBag.Songs;
+}
+
+<h1>Плейлист всех песен</h1>
+<a asp-controller="Home" asp-action="PlaylistSong">Перейти к связи Песня -> Авторы</a>
+
+@{
+    var temp_table = (from authorssongs in authorsSongs
+                      join author in authors on authorssongs.IdAuthor equals author.Id
+                      join song in songs on authorssongs.IdSong equals song.Id
+                      select new { Title = song.Title, Name = author.Name, IdSong = song.Id, Duration = song.Duration, Audition = song.Auditions, Explicit = song.Explicit, IdAuthor = author.Id })
+                      .GroupBy(song => song.IdAuthor);
+}
+
+<table>
+    <tr>
+        <th>Автор</th>
+        <th>Название песен</th>
+        <th>Продолжительность</th>
+        <th>Всего прослушиваний</th>
+        <th>Метка Explicit</th>
+        <th>Действие над строкой</th>
+    </tr>
+
+    @foreach (var item in temp_table)
+    {
+        <tr>
+            <td rowspan="@(item.Count()+1)">
+                @item.First().Name<br>
+                [ <a asp-controller="Home" asp-action="DeleteAllRowsInPlaylist" asp-route-Id="@item.First().IdAuthor" asp-route-choice='A'>Удалить</a> ]
+            </td>
+            @foreach (var item2 in item)
+            {
+                <tr>
+                    <td>
+                        @item2.Title<br>
+                        [ <a asp-controller="Home" asp-action="DeleteOneRowInPlaylist" asp-route-IdSong="@item.First().IdSong" asp-route-IdAuthor="@item.First().IdAuthor" asp-route-choice='A'>Удалить</a> ]
+                    </td>
+                    <td>
+                        @(item.First().Duration / 60):@(item.First().Duration % 60)
+                    </td>
+                    <td>
+                        @item.First().Audition
+                    </td>
+                    <td>
+                        @(item.First().Explicit ? "Да" : "Нет")
+                    </td>
+                    <td>
+                        [ <a asp-controller="Home" asp-action="UpdatePlaylist" asp-route-IdSong="@item2.IdSong" asp-route-IdAuthor="@item2.IdAuthor" asp-route-choice='S'>Изменить</a> ]
+                    </td>
+                </tr>
+            }
+        </tr>
+    }
+        <td colspan="6">
+            <a asp-controller="Home" asp-action="CreatePlaylist">Добавить</a>
+        </td>
+    </tr>
+</table>

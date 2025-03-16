@@ -1,0 +1,41 @@
+﻿@{
+    ViewData["Title"] = "Создание новой песни";
+    CreateSong model = ViewBag.Model;
+    List<Album> albums = ViewBag.Albums;
+}
+
+<h1>Создание новой песни</h1>
+
+<div>
+    <form asp-action="CreateSong" asp-controller="Home" method="post">
+        <div asp-validation-summary="All">
+            <div>
+                <lable>Название песни</lable>
+                <input type="text" asp-for="@(model.Title)" />
+            </div>
+            <div>
+                <lable>Идентификатор альбома в котором содержится песня</lable>
+                <select asp-for="@(model.IdAlbum)">
+                    @foreach (Album album in albums.OrderBy(a => a.Id))
+                    {
+                        <option>@album.Id</option>
+                    }
+                </select>
+            </div>
+            <div>
+                <lable>Продолжительность песни</lable>
+                <input type="text" asp-for="@(model.Duration)" />
+            </div>
+            <div>
+                <lable>Песня содержит нецензурную лексику или другие материалы для взрослых?</lable>
+                <select asp-for="@(model.Explicit)">
+                    <option>Нет</option>
+                    <option>Да</option>
+                </select>
+            </div>
+            <div>
+                <button type="submit">Отправить</button>
+            </div>
+        </div>
+    </form>
+</div>

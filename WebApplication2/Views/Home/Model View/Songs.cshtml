@@ -1,0 +1,65 @@
+﻿@{
+    ViewData["Title"] = "Список всех песен";
+    List<Album> albums = ViewBag.Albums;
+    List<Song> songs = ViewBag.Songs;
+}
+
+<h1>Плейлист всех песен</h1>
+
+@{
+    var temp_table = (from s in songs
+                      join a in albums on s.AlbumId equals a.Id
+                      select new { TitleAlbum = a.Title, TitleSong = s.Title, IdAlbum = a.Id, IdSong = s.Id, Duration = s.Duration, Explicit = s.Explicit, Auditions = s.Auditions})
+                      .GroupBy(a => a.IdAlbum);
+}
+
+<table>
+    <tr>
+        <th>Название альбома</th>
+        <th>Название песни</th>
+        <th>Продолжительность</th>
+        <th>Прослушиваний</th>
+        <th>метка Explicit</th>
+        <th>Действие над строкой</th>
+    </tr>
+
+    @foreach (var item in temp_table)
+    {
+        <tr>
+            <td rowspan="@(item.Count()+1)">
+                <div>
+                    @item.First().TitleAlbum
+                </div>
+                <div>
+                    [ <a asp-controller="Home" asp-action="DeleteAllRowsInSong" asp-route-Id="@item.First().IdAlbum">Удалить</a> ]
+                </div>
+            </td>
+        </tr>
+        @foreach (var item2 in item)
+        {
+            <tr>
+                <td>
+                    @item2.TitleSong<br>
+                    [ <a asp-controller="Home" asp-action="DeleteOneRowInSong" asp-route-Id="@item2.IdSong">Удалить</a> ]
+                </td>
+                <td>
+                    @(item2.Duration / 60):@((item2.Duration % 60 < 10 ? "0" : "") + item2.Duration % 60)
+                </td>
+                <td>
+                    @item2.Auditions
+                </td>
+                <td>
+                    @(item2.Explicit ? "Да" : "Нет")
+                </td>
+                <td>
+                        [ <a asp-controller="Home" asp-action="UpdateSong" asp-route-Id="@item2.IdSong">Изменить</a> ]
+                </td>
+            </tr>
+        }
+    }
+    <tr>
+        <td colspan="6">
+            <a asp-controller="Home" asp-action="CreateSong">Добавить</a>
+        </td>
+    </tr>
+</table>

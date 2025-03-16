@@ -1,0 +1,31 @@
+﻿@{
+    ViewData["Title"] = "Главная";
+}
+
+<div class="text-center">
+    <h1>Работу выполнил Ужегов Е.В.</h1>
+    <h1>группа ФИТ-2-2023 (ИТ-16-2023)</h1>
+</div>
+
+<table>
+    <tr>
+        <th>Таблица "Авторы"</th>
+        <th>Таблица "Плейлист"</th>
+        <th>Таблица "Песни"</th>
+        <th>Таблица "Альбомы"</th>
+    </tr>
+    <tr>
+        <td>
+            <a asp-controller="Home" asp-action="Authors">Перейти к авторам</a>
+        </td>
+        <td>
+             <a asp-controller="Home" asp-action="PlaylistSong">Перейти к плейлисту</a>
+        </td>
+        <td>
+            <a asp-controller="Home" asp-action="Songs">Перейти к песням</a>
+        </td>
+        <td>
+            <a asp-controller="Home" asp-action="Albums">Перейти к альбомам</a>
+        </td>
+    </tr>
+</table>

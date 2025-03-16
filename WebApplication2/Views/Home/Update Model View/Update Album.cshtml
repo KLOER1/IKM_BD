@@ -1,0 +1,25 @@
+﻿@{
+    ViewData["Title"] = "Создание новой записи альбома";
+    UpdateAlbum model = ViewBag.Model;
+    Album OldAlbum = ViewBag.Album;
+}
+
+<h1>Изменение информации об альбоме</h1>
+
+<div>
+    <form asp-action="UpdateAlbum" asp-controller="Home" method="post">
+        <div asp-validation-summary="All">
+            <div>
+                <lable>Название альбома</lable>
+                <input type="text" placeholder="@(OldAlbum.Title)" asp-for="@(model.Title)" />
+            </div>
+            <div>
+                <lable>Дата релиза (в формате дд.мм.гггг)</lable>
+                <input type="text" placeholder="@(OldAlbum.ReleaseDate.ToString())" asp-for="@(model.ReleaseDate)" />
+            </div>
+            <div>
+                <button type="submit">Отправить</button>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,29 @@
+﻿@{
+    ViewData["Title"] = "Создание новой записи альбома";
+    UpdateAuthor model = ViewBag.Model;
+    Author OldAuthor = ViewBag.Author;
+}
+
+<h1>Изменение информации об авторе</h1>
+
+<div>
+    <form asp-action="UpdateAuthor" asp-controller="Home" method="post">
+        <div asp-validation-summary="All">
+            <div>
+                <lable>Имя (псевдоним) автора</lable>
+                <input type="text" placeholder="@(OldAuthor.Name)" asp-for="@(model.Name)" />
+            </div>
+            <div>
+                <lable>Количество слушателей</lable>
+                <input type="text" placeholder="@(OldAuthor.Listeners)" asp-for="@(model.Listners)" />
+            </div>
+            <div>
+                <lable>Статус автора</lable>
+                <input type="text" placeholder="@(OldAuthor.Description)" asp-for="@(model.Description)" />
+            </div>
+            <div>
+                <button type="submit">Отправить</button>
+            </div>
+        </div>
+    </form>
+</div>
